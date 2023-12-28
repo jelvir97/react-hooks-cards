@@ -8,7 +8,17 @@ import "./PokeDex.css";
  * Can also add a new card at random,
  * or from a dropdown of available pokemon. */
 function PokeDex() {
-  const [pokemon, addPokemon, removeData] = useAxios("https://pokeapi.co/api/v2/pokemon/");
+  const formatData = (pokemon)=>{
+    return {
+      front: pokemon.sprites.front_default,
+      back: pokemon.sprites.back_default,
+      name: pokemon.name,
+      stats: pokemon.stats
+    }
+  }
+
+  const [pokemon, addPokemon, removeData] = useAxios("https://pokeapi.co/api/v2/pokemon/", formatData);
+
   return (
     <div className="PokeDex">
       <div className="PokeDex-buttons">
@@ -19,8 +29,8 @@ function PokeDex() {
         {pokemon.map(cardData => (
           <PokemonCard
             key={cardData.id}
-            front={cardData.sprites.front_default}
-            back={cardData.sprites.back_default}
+            front={cardData.front}
+            back={cardData.back}
             name={cardData.name}
             stats={cardData.stats.map(stat => ({
               value: stat.base_stat,

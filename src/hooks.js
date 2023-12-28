@@ -10,11 +10,11 @@ const useFlip = ()=> {
     return [isFacingUp, flipCard]
 }
 
-const useAxios = (url)=>{
+const useAxios = (url, formatData)=>{
     const [data, setData] = useState([]);
     const addData = async (e,id='') => {
       const response = await axios.get(`${url}${id}`);
-      setData(data => [...data, { ...response.data, id: uuid() }]);
+      setData(data => [...data, { ...formatData(response.data), id: uuid() }]);
     };
 
     const removeData = () =>{
